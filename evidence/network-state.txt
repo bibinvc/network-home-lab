@@ -1,0 +1,56 @@
+--- VLAN membership ---
+port              vlan-id  
+p-router          10
+                  20
+                  30
+                  40
+p-admin           10 PVID Egress Untagged
+p-services        20 PVID Egress Untagged
+p-client          30 PVID Egress Untagged
+p-guest           40 PVID Egress Untagged
+--- Router interfaces ---
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+rt0@if3          UP             fe80::c859:1aff:fe18:762e/64 
+rt0.10@rt0       UP             10.77.10.1/24 fe80::c859:1aff:fe18:762e/64 
+rt0.20@rt0       UP             10.77.20.1/24 fe80::c859:1aff:fe18:762e/64 
+rt0.30@rt0       UP             10.77.30.1/24 fe80::c859:1aff:fe18:762e/64 
+rt0.40@rt0       UP             10.77.40.1/24 fe80::c859:1aff:fe18:762e/64 
+--- Router routes ---
+10.77.10.0/24 dev rt0.10 proto kernel scope link src 10.77.10.1 
+10.77.20.0/24 dev rt0.20 proto kernel scope link src 10.77.20.1 
+10.77.30.0/24 dev rt0.30 proto kernel scope link src 10.77.30.1 
+10.77.40.0/24 dev rt0.40 proto kernel scope link src 10.77.40.1 
+--- Firewall and counters ---
+table inet homelab {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		iifname "lo" accept
+		ct state established,related accept
+		ip protocol icmp accept comment "Allow gateway diagnostics"
+		udp dport { 53, 67 } accept comment "DNS and DHCP to this router"
+		tcp dport 53 accept comment "DNS over TCP"
+		counter packets 0 bytes 0 drop
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy drop;
+		iifname "rt0.10" ip saddr != 10.77.10.0/24 counter packets 0 bytes 0 drop
+		iifname "rt0.20" ip saddr != 10.77.20.0/24 counter packets 0 bytes 0 drop
+		iifname "rt0.30" ip saddr != 10.77.30.0/24 counter packets 0 bytes 0 drop
+		iifname "rt0.40" ip saddr != 10.77.40.0/24 counter packets 0 bytes 0 drop
+		ct state invalid drop
+		ct state established,related counter packets 48 bytes 4464 accept comment "Return traffic"
+		iifname "rt0.10" ip daddr 10.77.0.0/16 counter packets 2 bytes 144 accept comment "Management to lab"
+		iifname "rt0.30" oifname "rt0.20" ip daddr 10.77.20.10 tcp dport 8080 counter packets 4 bytes 240 accept comment "Client file service"
+		iifname "rt0.30" oifname "rt0.20" ip protocol icmp counter packets 0 bytes 0 accept comment "Client service diagnostics"
+		iifname "rt0.40" counter packets 2 bytes 144 drop comment "Guest isolation"
+		counter packets 2 bytes 144 drop comment "Other inter-VLAN traffic denied"
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+--- DHCP leases ---
+1793203562 02:77:00:30:00:10 10.77.30.100 workstation 01:02:77:00:30:00:10
+1793203562 02:77:00:40:00:10 10.77.40.100 guest 01:02:77:00:40:00:10

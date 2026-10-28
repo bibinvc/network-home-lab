@@ -1,0 +1,12 @@
+FAULT DRILL: client access-port shutdown and recovery
+UTC: 2026-10-28T15:06:08Z
+1. Positive control: service must be reachable.
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Lab file service</title><h1>Network home lab: file service</h1><p>VLAN 20, 10.77.20.10:8080. Synthetic test content.</p></html>
+2. Shut down only the client access port in the virtual switch.
+curl: (28) Failed to connect to 10.77.20.10 port 8080 after 1000 ms: Timeout was reached
+3. Inspect the link state and client neighbour table.
+p-client@if2     DOWN           ba:e5:0a:12:0b:91 <BROADCAST,MULTICAST> 
+10.77.30.1 dev eth0 INCOMPLETE 
+4. Restore the access port and verify the original service.
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Lab file service</title><h1>Network home lab: file service</h1><p>VLAN 20, 10.77.20.10:8080. Synthetic test content.</p></html>
+PASS: access-port fault reproduced, diagnosed and recovered.

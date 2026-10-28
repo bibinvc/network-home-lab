@@ -1,0 +1,5 @@
+run/
+tools/
+*.deb
+__pycache__/
+.env

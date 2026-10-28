@@ -1,0 +1,110 @@
+Network Home Lab — actual connectivity checks
+UTC: 2026-10-28T15:06:02Z
+
+TEST: DHCP client address
+ip=10.77.30.100
+PASS: DHCP client address (exit=0)
+
+TEST: DHCP guest address
+ip=10.77.40.100
+PASS: DHCP guest address (exit=0)
+
+TEST: DHCP client gateway
+router=10.77.30.1
+PASS: DHCP client gateway (exit=0)
+
+TEST: DHCP guest DNS option
+dns=10.77.40.1
+PASS: DHCP guest DNS option (exit=0)
+
+TEST: Client gateway reachable
+PING 10.77.30.1 (10.77.30.1) 56(84) bytes of data.
+64 bytes from 10.77.30.1: icmp_seq=1 ttl=64 time=0.085 ms
+
+--- 10.77.30.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.085/0.085/0.085/0.000 ms
+PASS: Client gateway reachable (exit=0)
+
+TEST: Client resolves private DNS
+Server:		10.77.30.1
+Address:	10.77.30.1:53
+
+Name:	files.lab.test
+Address: 10.77.20.10
+
+Non-authoritative answer:
+
+Address: 10.77.20.10
+PASS: Client resolves private DNS (exit=0)
+
+TEST: Guest resolves private DNS
+Server:		10.77.40.1
+Address:	10.77.40.1:53
+
+Name:	files.lab.test
+Address: 10.77.20.10
+
+Non-authoritative answer:
+
+Address: 10.77.20.10
+PASS: Guest resolves private DNS (exit=0)
+
+TEST: Client reaches file service
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Lab file service</title><h1>Network home lab: file service</h1><p>VLAN 20, 10.77.20.10:8080. Synthetic test content.</p></html>
+PASS: Client reaches file service (exit=0)
+
+TEST: Admin reaches file service
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Lab file service</title><h1>Network home lab: file service</h1><p>VLAN 20, 10.77.20.10:8080. Synthetic test content.</p></html>
+PASS: Admin reaches file service (exit=0)
+
+TEST: Admin reaches guest (stateful return)
+PING 10.77.40.100 (10.77.40.100) 56(84) bytes of data.
+64 bytes from 10.77.40.100: icmp_seq=1 ttl=63 time=0.067 ms
+
+--- 10.77.40.100 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.067/0.067/0.067/0.000 ms
+PASS: Admin reaches guest (stateful return) (exit=0)
+
+TEST: Admin management service positive control
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Lab management service</title><h1>Network home lab: management service</h1><p>VLAN 10, 10.77.10.10:8081. Synthetic test content.</p></html>
+PASS: Admin management service positive control (exit=0)
+
+TEST: Guest cannot reach file service
+curl: (28) Failed to connect to 10.77.20.10 port 8080 after 1001 ms: Timeout was reached
+PASS: Guest cannot reach file service (exit=28)
+
+TEST: Client cannot reach management service
+curl: (28) Failed to connect to 10.77.10.10 port 8081 after 1001 ms: Timeout was reached
+PASS: Client cannot reach management service (exit=28)
+
+TEST: Guest cannot ping management
+PING 10.77.10.10 (10.77.10.10) 56(84) bytes of data.
+
+--- 10.77.10.10 ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
+PASS: Guest cannot ping management (exit=1)
+
+TEST: Services cannot initiate a client connection
+PING 10.77.30.100 (10.77.30.100) 56(84) bytes of data.
+
+--- 10.77.30.100 ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
+PASS: Services cannot initiate a client connection (exit=1)
+
+TEST: Router has no Internet route
+RTNETLINK answers: Network is unreachable
+PASS: Router has no Internet route (exit=2)
+
+TEST: Guest tagged VLAN 30 cannot reach that VLAN gateway
+PING 10.77.30.1 (10.77.30.1) from 10.77.30.222 probe30: 56(84) bytes of data.
+
+--- 10.77.30.1 ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
+PASS: Guest tagged VLAN 30 cannot reach that VLAN gateway (exit=1)
+
+RESULT: 17 passed, 0 failed

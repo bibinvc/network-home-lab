@@ -1,0 +1,29 @@
+# Loaded only inside bvc-hl-router. No host firewall changes.
+table inet homelab {
+    chain input {
+        type filter hook input priority 0; policy drop;
+        iifname "lo" accept
+        ct state established,related accept
+        ip protocol icmp accept comment "Allow gateway diagnostics"
+        udp dport { 53, 67 } accept comment "DNS and DHCP to this router"
+        tcp dport 53 accept comment "DNS over TCP"
+        counter drop
+    }
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        iifname "rt0.10" ip saddr != 10.77.10.0/24 counter drop
+        iifname "rt0.20" ip saddr != 10.77.20.0/24 counter drop
+        iifname "rt0.30" ip saddr != 10.77.30.0/24 counter drop
+        iifname "rt0.40" ip saddr != 10.77.40.0/24 counter drop
+        ct state invalid drop
+        ct state established,related counter accept comment "Return traffic"
+        iifname "rt0.10" ip daddr 10.77.0.0/16 counter accept comment "Management to lab"
+        iifname "rt0.30" oifname "rt0.20" ip daddr 10.77.20.10 tcp dport 8080 counter accept comment "Client file service"
+        iifname "rt0.30" oifname "rt0.20" ip protocol icmp counter accept comment "Client service diagnostics"
+        iifname "rt0.40" counter drop comment "Guest isolation"
+        counter drop comment "Other inter-VLAN traffic denied"
+    }
+    chain output {
+        type filter hook output priority 0; policy accept;
+    }
+}

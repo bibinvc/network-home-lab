@@ -1,0 +1,12 @@
+UTC: 2026-10-28T15:06:12Z
+PRETTY_NAME="Ubuntu 24.04.3 LTS"
+6.6.87.2-microsoft-standard-WSL2
+x86_64
+ip utility, iproute2-6.1.0, libbpf 1.3.0
+nftables v1.0.9 (Old Doc Yak #3)
+Dnsmasq version 2.91  Copyright (c) 2000-2025 Simon Kelley
+Compile time options: IPv6 GNU-getopt DBus no-UBus i18n IDN2 DHCP DHCPv6 no-Lua TFTP conntrack ipset nftset auth DNSSEC loop-detect inotify dumpfile
+BusyBox v1.36.1 (Ubuntu 1:1.36.1-6ubuntu3.1) multi-call binary.
+BusyBox is copyrighted by many authors between 1998-2015.
+tcpdump version 4.99.4
+libpcap version 1.10.4 (with TPACKET_V3)
