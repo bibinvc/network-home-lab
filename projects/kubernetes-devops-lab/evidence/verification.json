@@ -1,0 +1,65 @@
+{
+  "verified_at_utc": "2026-10-29T13:24:07.416385+00:00",
+  "live_checks_passed": 14,
+  "live_checks_failed": 1,
+  "checks": [
+    {
+      "name": "two Kubernetes nodes are Ready",
+      "status": "passed"
+    },
+    {
+      "name": "server-side deployment validation",
+      "status": "passed"
+    },
+    {
+      "name": "two application replicas are available",
+      "status": "passed"
+    },
+    {
+      "name": "WAF forwards a normal health request",
+      "status": "passed"
+    },
+    {
+      "name": "application rejects mutations",
+      "status": "passed"
+    },
+    {
+      "name": "legacy inventory has three synthetic records",
+      "status": "passed"
+    },
+    {
+      "name": "target inventory is empty before migration",
+      "status": "passed"
+    },
+    {
+      "name": "logical database migration preserves all records",
+      "status": "passed"
+    },
+    {
+      "name": "target application reads migrated data",
+      "status": "passed"
+    },
+    {
+      "name": "application database role cannot insert records",
+      "status": "passed"
+    },
+    {
+      "name": "SQL injection test string is blocked by WAF",
+      "status": "passed"
+    },
+    {
+      "name": "XSS test string is blocked by WAF",
+      "status": "passed"
+    },
+    {
+      "name": "normal request still works after WAF probes",
+      "status": "passed"
+    },
+    {
+      "name": "untrusted pod can resolve cluster DNS",
+      "status": "passed"
+    }
+  ],
+  "error": "Network-policy probe returned Connection refused; expected-timeout check stopped the run. Remaining checks were not executed.",
+  "status": "incomplete"
+}

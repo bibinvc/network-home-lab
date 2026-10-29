@@ -1,0 +1,8 @@
+.runtime/
+__pycache__/
+*.pyc
+.venv/
+*.secret
+*.dump
+kubeconfig*
+tools/

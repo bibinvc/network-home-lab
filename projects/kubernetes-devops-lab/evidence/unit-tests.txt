@@ -1,0 +1,31 @@
+test_database_errors_do_not_leak_details (test_app.ApplicationChecks.test_database_errors_do_not_leak_details) ... {"event": "http_request", "path": "/records"}
+ok
+test_forced_unready_drill (test_app.ApplicationChecks.test_forced_unready_drill) ... {"event": "http_request", "path": "/readyz"}
+{"event": "http_request", "path": "/healthz"}
+ok
+test_html_escapes_inventory (test_app.ApplicationChecks.test_html_escapes_inventory) ... {"event": "http_request", "path": "/"}
+ok
+test_liveness_does_not_need_database (test_app.ApplicationChecks.test_liveness_does_not_need_database) ... {"event": "http_request", "path": "/healthz"}
+{"event": "http_request", "path": "/readyz"}
+ok
+test_metrics_and_unknown_path (test_app.ApplicationChecks.test_metrics_and_unknown_path) ... {"event": "http_request", "path": "/metrics"}
+{"event": "http_request", "path": "/unknown"}
+ok
+test_mutations_are_rejected (test_app.ApplicationChecks.test_mutations_are_rejected) ... {"event": "http_request", "path": "/records"}
+{"event": "http_request", "path": "/records"}
+{"event": "http_request", "path": "/records"}
+{"event": "http_request", "path": "/records"}
+ok
+test_records_and_count (test_app.ApplicationChecks.test_records_and_count) ... {"event": "http_request", "path": "/records"}
+ok
+test_version_has_no_database_dependency (test_app.ApplicationChecks.test_version_has_no_database_dependency) ... {"event": "http_request", "path": "/version"}
+ok
+test_default_deny_and_rolling_strategy (test_manifests.ManifestChecks.test_default_deny_and_rolling_strategy) ... ok
+test_deployments_have_probes_limits_and_no_token (test_manifests.ManifestChecks.test_deployments_have_probes_limits_and_no_token) ... ok
+test_no_embedded_secret_or_public_service (test_manifests.ManifestChecks.test_no_embedded_secret_or_public_service) ... ok
+test_schema_is_not_run_twice (test_manifests.ManifestChecks.test_schema_is_not_run_twice) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 4.097s
+
+OK

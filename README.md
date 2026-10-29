@@ -121,3 +121,7 @@ MIT License — Bibin Vellangott Cheruvadi.
 - [Linux bridge VLAN configuration](https://man7.org/linux/man-pages/man8/bridge.8.html)
 - [nftables base chains and policies](https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains)
 - [dnsmasq configuration manual](https://thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html)
+
+## Related infrastructure project
+
+[Kubernetes DevOps lab](projects/kubernetes-devops-lab/) — local Docker/K3s, PostgreSQL migration, WAF and deployment checks. Work in progress: 14 live checks passed; a network-policy probe failed and later scenarios remain unverified. See the project README and recorded evidence.

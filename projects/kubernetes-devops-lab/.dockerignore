@@ -1,0 +1,5 @@
+**
+!Dockerfile
+!app/
+!app/app.py
+!app/requirements.txt

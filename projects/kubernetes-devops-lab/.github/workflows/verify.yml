@@ -1,0 +1,29 @@
+name: Verify local infrastructure lab
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned cluster tools
+        run: |
+          bash scripts/tools.sh
+          echo "$PWD/.runtime/tools" >> "$GITHUB_PATH"
+      - name: Run unit and live cluster checks
+        run: bash scripts/pipeline.sh
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infrastructure-lab-evidence
+          path: evidence/
+          if-no-files-found: warn
